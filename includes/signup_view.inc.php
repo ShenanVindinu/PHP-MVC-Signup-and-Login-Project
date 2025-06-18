@@ -2,10 +2,18 @@
 
 declare(strict_types=1);
 
-function signup_inputs() {
-    
-    if (isset($_SESSION["signup_data"]["username"]) && !isset
-    ($_SESSION["errors_signup"]["username_taken"])) {
+function output_username() {
+    if(isset($_SESSION["user_id"])) {
+        echo "You are ogged in as " . $_SESSION["user_username"]; 
+    } else {
+        echo "You are not logged in";
+    }
+}
+
+function signup_inputs()
+{
+
+    if (isset($_SESSION["signup_data"]["username"]) && !isset($_SESSION["errors_signup"]["username_taken"])) {
         echo '<input type="text" name="username" placeholder="Username" value="' . $_SESSION["signup_data"]["username"] . '">';
     } else {
         echo '<input type="text" name="username" placeholder="Username">';
@@ -13,24 +21,27 @@ function signup_inputs() {
 
     echo '<input type="password" name="pwd" placeholder="Password">';
 
-    if (isset($_SESSION["signup_data"]["email"]) &&
+    if (
+        isset($_SESSION["signup_data"]["email"]) &&
         !isset($_SESSION["errors_signup"]["email_used"]) &&
-        !isset($_SESSION["errors_signup"]["invalid_email"])) {
-        echo '<input type="text" name="email" placeholder="E-Mail" value="' . 
-         $_SESSION["signup_data"]["email"] . '">';
+        !isset($_SESSION["errors_signup"]["invalid_email"])
+    ) {
+        echo '<input type="text" name="email" placeholder="E-Mail" value="' .
+            $_SESSION["signup_data"]["email"] . '">';
     } else {
-    echo '<input type="text" name="email" placeholder="E-Mail">';
+        echo '<input type="text" name="email" placeholder="E-Mail">';
     }
 }
 
-function check_signup_errors() {
+function check_signup_errors()
+{
 
     if (isset($_SESSION["errors_signup"])) {
         $errors = $_SESSION['errors_signup'];
 
         echo "<br>";
 
-        foreach($errors as $error) {
+        foreach ($errors as $error) {
             echo '<p class="form-error">' . $error . '</p>';
         }
 
@@ -39,5 +50,4 @@ function check_signup_errors() {
         echo '<br>';
         echo '<p class="form-success">Signup success!</p>';
     }
-    
 }
