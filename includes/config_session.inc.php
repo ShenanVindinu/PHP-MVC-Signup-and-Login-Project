@@ -14,16 +14,20 @@ session_set_cookie_params([
 
 session_start();
 
+// Check if this is the first time we're regenerating the session ID
 if (!isset($_SESSION["last_regeneration"])) {
     session_regenerate_id();
-    $_SESSION["last_regeneration"] = time();
+    $_SESSION["last_regeneration"] = time(); // Store the current time of regeneration
 } else {
-    $interval = 60 * 30;
+    $interval = 60 * 30;                    // Set regeneration interval to 30 minutes (1800 seconds)
+
+    // Check if the interval has passed since last regeneration
     if (time() - $_SESSION["last_regeneration"] >= $interval) {
         regenerate_session_id();
     }
 }
 
+// Update the regeneration time
 function regenerate_session_id() {
     session_regenerate_id();
     $_SESSION["last_regeneration"] = time();
